@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import tabsData from './data/tabs.json';
+import { Tab } from './components/Tab';
+import { Header } from './components/Header';
 
 function App() {
+  const defaultTab = tabsData.sort((a, b) => a.order - b.order)[0];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Header />
+        <main className='contant fixed-header'>
+          <div className='container'>
+            <Routes>
+              {tabsData.map((tab) => (
+                <Route key={tab.id} path={tab.id} element={<Tab tab={tab} />} />
+              ))}
+              <Route path="/" element={<Tab tab={defaultTab} />} />
+            </Routes>
+          </div>
+        </main>
+      </Router>
+    </>
   );
 }
 
